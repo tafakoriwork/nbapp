@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarberController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\PhotoController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\TimeController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,7 +28,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:sanctum')->post('/reserve', [ReserveController::class, 'reserve']);
+Route::post('/reserve', [ReserveController::class, 'reserve']);
+Route::post('/login_or_register', [AuthController::class, 'login_or_register']);
+Route::post('/login_or_register/mobile/verify', [AuthController::class, 'checkCode']);
 Route::get('/users', [UserController::class, 'users']);
 Route::get('/admintoken', function() {
     return User::first()->createToken(User::first()->phone);
